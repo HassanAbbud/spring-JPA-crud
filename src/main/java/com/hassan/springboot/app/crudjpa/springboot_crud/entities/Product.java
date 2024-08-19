@@ -7,8 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Persons")
-public class Person {
+@Table(name = "Products")
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class Person {
     private Integer price;
     private String description;
 
-    
+
     public Long getId() {
         return id;
     }
