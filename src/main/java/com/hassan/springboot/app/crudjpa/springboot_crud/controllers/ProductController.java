@@ -47,17 +47,19 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.Save(product));        
     }
     
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
-        product.setId(id);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.Save(product));        
+        Optional<Product> optionalProduct = productService.update(id, product);
+        if (optionalProduct.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(optionalProduct.orElseThrow());        
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Product product = new Product();
-        product.setId(id);
-        Optional<Product> optionalProduct = productService.delete(product);
+       
+        Optional<Product> optionalProduct = productService.delete(id);
         if (optionalProduct.isPresent()) {
             return ResponseEntity.ok(optionalProduct.orElseThrow());
         }
