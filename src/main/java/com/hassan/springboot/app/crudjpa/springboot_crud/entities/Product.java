@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,15 +20,15 @@ public class Product {
     private Long id;
 
     //Constraints that are useful to validate things like username.
-    @NotEmpty
+    @NotEmpty(message = "{NotEmpty.product.name}")
     @Size(min = 3, max = 20)
     private String name;
 
-    @NotNull
-    @Min(500)
+    @NotNull(message = "{NotNull.product.price}")
+    @Min(value = 500, message = "{Min.product.price}")
     private Integer price;
     
-    @NotEmpty
+    @NotBlank(message = "{NotBlank.product.description}")
     private String description;
 
 
