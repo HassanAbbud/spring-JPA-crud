@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hassan.springboot.app.crudjpa.springboot_crud.ProductValidation;
 import com.hassan.springboot.app.crudjpa.springboot_crud.entities.Product;
 import com.hassan.springboot.app.crudjpa.springboot_crud.services.ProductService;
 
@@ -30,6 +31,10 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    //Custom validator of errors
+    @Autowired
+    private ProductValidation validation;
 
     @GetMapping
     public List<Product> list(){
@@ -48,6 +53,8 @@ public class ProductController {
     //Post method with validation parameters being checked
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result) {
+        //custom validation using validator class
+        validation.validate(product, result);
         if (result.hasFieldErrors()) {
             return validation(result);
         }
@@ -58,6 +65,8 @@ public class ProductController {
     //Put method with validation parameters being checked
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id) {
+        //custom validation using validator class
+        validation.validate(product, result);
         if (result.hasFieldErrors()) {
             return validation(result);
         }
