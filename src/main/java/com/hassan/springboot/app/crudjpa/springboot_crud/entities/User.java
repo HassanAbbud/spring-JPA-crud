@@ -2,6 +2,7 @@ package com.hassan.springboot.app.crudjpa.springboot_crud.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
@@ -30,7 +32,9 @@ public class User {
     @Size(min = 4, max = 12)
     private String username;
 
+    // Not show password in JSON
     @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ManyToMany
@@ -42,10 +46,16 @@ public class User {
     )
     private List<Role> roles;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean enabled;
 
     @Transient
     private boolean admin;
+
+    @PrePersist
+    public void prePersist() {
+        enabled = true;
+    }
 
     public Long getId() {
         return id;
