@@ -19,36 +19,33 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
+    
     @Autowired
-    UserService userService;
+    private UserService service;
 
     @GetMapping
-    public List<User> list(@RequestParam String param) {
-        return userService.findAll();
+    public List<User> list() {
+        return service.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody User user, BindingResult result){
+    public ResponseEntity<?> create(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-            return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
     }
 
-
-    public ResponseEntity<?> validation(BindingResult result ){
+    private ResponseEntity<?> validation(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
 
         result.getFieldErrors().forEach(err -> {
-            errors.put(err.getField(), "The field" + err.getField() + " " + err.getDefaultMessage());
+            errors.put(err.getField(), "The field " + err.getField() + " " + err.getDefaultMessage());
         });
         return ResponseEntity.badRequest().body(errors);
     }
-    
 }

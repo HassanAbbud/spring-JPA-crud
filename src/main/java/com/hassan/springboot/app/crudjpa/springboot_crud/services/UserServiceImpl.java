@@ -36,10 +36,10 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public User save(User user) {
-        
+
         Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
-        List<Role> roles =  new ArrayList<>();
-        
+        List<Role> roles = new ArrayList<>();
+
         optionalRoleUser.ifPresent(roles::add);
 
         if (user.isAdmin()) {
@@ -48,9 +48,7 @@ public class UserServiceImpl implements UserService{
         }
 
         user.setRoles(roles);
-        String passwordEncoded =  passwordEncoder.encode(user.getPassword());
-        user.setPassword(passwordEncoded);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
-
 }
