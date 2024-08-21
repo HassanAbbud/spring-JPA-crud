@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,11 +38,13 @@ public class ProductController {
     private ProductValidation validation;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public List<Product> list(){
         return productService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> findProduct(@PathVariable Long id) {
         Optional<Product> optionalProduct = productService.findById(id);
         if (optionalProduct.isPresent()) {
@@ -52,6 +55,7 @@ public class ProductController {
     
     //Post method with validation parameters being checked
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result) {
         //custom validation using validator class
         validation.validate(product, result);
@@ -64,6 +68,7 @@ public class ProductController {
     
     //Put method with validation parameters being checked
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id) {
         //custom validation using validator class
         validation.validate(product, result);
@@ -79,6 +84,7 @@ public class ProductController {
 
     
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         
         Optional<Product> optionalProduct = productService.delete(id);
