@@ -35,6 +35,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
     }
 
+    // Called in /login (can be configured with setFilterProcessesUrl("/custom-login"); in constructor)
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
@@ -71,7 +72,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
         Claims claims = Jwts.claims() // adding roles to claims
-                .add("authorities", roles)
+                .add("authorities", new ObjectMapper().writeValueAsString(roles))
                 .add("username", username)
         .build();
 

@@ -34,7 +34,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter{
         super(authenticationManager);
     }
 
-    //Validate JWT token for every subsequent request
+    //Validate JWT token for every subsequent request (specified in filter chain)
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
