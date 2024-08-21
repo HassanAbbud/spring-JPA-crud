@@ -38,11 +38,11 @@ public class SpringSecurity {
         return http.authorizeHttpRequests( (authz) -> authz
         .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
         .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
-        .requestMatchers(HttpMethod.POST, "/api/users").hasRole("ADMIN") //ROLE_ added automatically
-        .requestMatchers(HttpMethod.GET, "/api/products", "/api/products/{id}").hasAnyRole("ADMIN", "USER")
-        .requestMatchers(HttpMethod.POST, "/api/products").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.PUT, "/api/products/{id}").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.DELETE, "/api/products/{id}").hasRole("ADMIN")
+        // .requestMatchers(HttpMethod.POST, "/api/users").hasRole("ADMIN") //ROLE_ added automatically
+        // .requestMatchers(HttpMethod.GET, "/api/products", "/api/products/{id}").hasAnyRole("ADMIN", "USER")
+        // .requestMatchers(HttpMethod.POST, "/api/products").hasRole("ADMIN")
+        // .requestMatchers(HttpMethod.PUT, "/api/products/{id}").hasRole("ADMIN")
+        // .requestMatchers(HttpMethod.DELETE, "/api/products/{id}").hasRole("ADMIN")
             .anyRequest().authenticated())
         .addFilter(new JwtAuthenticationFilter(authenticationManager()))
         .addFilter(new JwtValidationFilter(authenticationManager()))
