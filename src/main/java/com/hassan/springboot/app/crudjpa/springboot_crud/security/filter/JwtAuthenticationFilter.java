@@ -28,6 +28,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import static com.hassan.springboot.app.crudjpa.springboot_crud.security.TokenJwtConfig.*;
+
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
     private AuthenticationManager authenticationManager;
@@ -72,7 +74,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = user.getUsername();
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
-        Claims claims = Jwts.claims()
+        Claims claims = Jwts.claims() // adding roles to claims
                 .add("authorities", roles)
                 .add("username", username)
         .build();
@@ -86,7 +88,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .signWith(SECRET_KEY)
                 .compact();
 
-        response.addHeader("Authorization", "Bearer" + token);
+        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + token);
+
 
         Map<String, String> body = new HashMap<>();
         body.put("token", token);
