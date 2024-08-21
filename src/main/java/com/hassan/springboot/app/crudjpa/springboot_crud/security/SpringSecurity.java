@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.hassan.springboot.app.crudjpa.springboot_crud.security.filter.JwtAuthenticationFilter;
+import com.hassan.springboot.app.crudjpa.springboot_crud.security.filter.JwtValidationFilter;
 
 @Configuration
 public class SpringSecurity {
@@ -37,6 +38,7 @@ public class SpringSecurity {
         .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
             .anyRequest().authenticated())
         .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+        .addFilter(new JwtValidationFilter(authenticationManager()))
         .csrf(config -> config.disable())
         .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();

@@ -6,9 +6,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
 
-
-import javax.crypto.SecretKey;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,8 +30,6 @@ import static com.hassan.springboot.app.crudjpa.springboot_crud.security.TokenJw
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
     private AuthenticationManager authenticationManager;
-
-    private static final SecretKey SECRET_KEY =  Jwts.SIG.HS256.key().build(); 
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -66,7 +61,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return authenticationManager.authenticate(authenticationToken);
     }
 
-     @Override
+    //Generate and sign JWT
+    @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
 
