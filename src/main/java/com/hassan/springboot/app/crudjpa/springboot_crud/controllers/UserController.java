@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200", originPatterns = "*")
 @RequestMapping("/api/users")
+@CrossOrigin(origins="http://localhost:4200", originPatterns = "*")
 public class UserController {
     
     @Autowired
