@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
     }
 
-    // Called in /login (can be configured with setFilterProcessesUrl("/custom-login"); in constructor)
+    // Called in by default /login (can be configured with setFilterProcessesUrl("/custom-login"); in constructor)
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
