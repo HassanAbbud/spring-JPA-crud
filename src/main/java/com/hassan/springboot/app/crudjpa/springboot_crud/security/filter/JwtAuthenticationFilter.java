@@ -58,8 +58,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
                 password);
-
-        return authenticationManager.authenticate(authenticationToken);
+        Authentication result = authenticationManager.authenticate(authenticationToken);
+        return result;
     }
 
     //Generate and sign JWT
